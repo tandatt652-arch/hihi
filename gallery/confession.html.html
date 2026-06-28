@@ -598,40 +598,7 @@ body.dawn{color:var(--c-bg-0)}
 </audio>
 
 <script>
-  //================ GOOGLE FORM =================
-
-const FORM_URL =
-"https://docs.google.com/forms/d/e/1FAIpQLSe4Jvx2uI27uJQTt9Xn6QdFj59c53kFNIRbxyFeirMOOEFE4g/formResponse";
-
-const ENTRY_ID="entry.1666228409";
-const ENTRY_QUESTION="entry.1275903316";
-const ENTRY_ANSWER="entry.444679017";
-
-// tạo ID riêng cho từng người mở web
-const USER_ID =
-localStorage.getItem("proposal_id") ||
-crypto.randomUUID();
-
-localStorage.setItem("proposal_id",USER_ID);
-
-// gửi dữ liệu lên Google Form
-function sendToSheet(question,answer){
-
-    const form = new FormData();
-
-    form.append(ENTRY_ID,USER_ID);
-
-    form.append(ENTRY_QUESTION,question);
-
-    form.append(ENTRY_ANSWER,answer);
-
-    fetch(FORM_URL,{
-        method:"POST",
-        mode:"no-cors",
-        body:form
-    }).catch(()=>{});
-
-}
+  
 /* ============================================================
    GLOBAL HELPERS
    ============================================================ */
@@ -640,6 +607,22 @@ const $$ = (s,ctx=document)=>Array.from(ctx.querySelectorAll(s));
 const rand = (a,b)=>a+Math.random()*(b-a);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const prefersReduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ================= GOOGLE FORM ================= */
+const FORM_URL="https://docs.google.com/forms/d/e/1FAIpQLSe4Jvx2uI27uJQTt9Xn6QdFj59c53kFNIRbxyFeirMOOEFE4g/formResponse";
+const ENTRY_ID="entry.1666228409";
+const ENTRY_QUESTION="entry.1275903316";
+const ENTRY_ANSWER="entry.444679017";
+const USER_ID=localStorage.getItem("proposal_user")||crypto.randomUUID();
+localStorage.setItem("proposal_user",USER_ID);
+function sendToSheet(question,answer){
+ const fd=new FormData();
+ fd.append(ENTRY_ID,USER_ID);
+ fd.append(ENTRY_QUESTION,question);
+ fd.append(ENTRY_ANSWER,answer);
+ fetch(FORM_URL,{method:"POST",mode:"no-cors",body:fd}).catch(()=>{});
+}
+
 
 /* ============================================================
    STARFIELD CANVAS  — parallax twinkling stars (rAF driven)
@@ -754,6 +737,7 @@ function makeShootingStar(){
 
 // orchestrate scene 1 timeline
 window.addEventListener('load',()=>{
+  sendToSheet('Website','Opened');
   setTimeout(()=>{ starFadeTarget=1; },1000);          // stars fade in after 1s
   setTimeout(()=>{ makeShootingStar(); },2200);        // shooting star
   setTimeout(()=>{ makeShootingStar(); },4200);
@@ -773,6 +757,7 @@ const journey=$('#journey');
 let journeyStarted=false;
 
 $('#beginBtn').addEventListener('click',()=>{
+  sendToSheet('Begin Button','Clicked');
   if(journeyStarted) return; journeyStarted=true;
   // fade out intro stage
   $('#introStage').style.transition='opacity 1.2s ease';
@@ -920,6 +905,7 @@ function collectStar(star){
   // sparkle burst at click
   burstSparkles(star);
   collected++;
+  sendToSheet('Collect Star', collected + '/' + STAR_COUNT);
   $('#gameCounter').textContent=`${collected} / ${STAR_COUNT} ngôi sao`;
   // draw connecting line of constellation
   drawConstellationLine(idx);
@@ -1081,6 +1067,7 @@ confessObs.observe($('#scene-confess'));
 /* ask button → reveal YES / NO choices */
 const askBtn=$('#askBtn'), choiceWrap=$('#choiceWrap'), btnYes=$('#btnYes'), btnNo=$('#btnNo');
 askBtn.addEventListener('click',()=>{
+  sendToSheet('Confession Viewed','Opened question');
   askBtn.style.transition='opacity .6s ease,transform .6s ease';
   askBtn.style.opacity='0'; askBtn.style.transform='scale(.9)';
   setTimeout(()=>{ askBtn.classList.add('gone'); choiceWrap.classList.add('show'); },500);
@@ -1167,9 +1154,9 @@ addEventListener('pointermove',e=>{
 const MSG_YES =`Cảm ơn em<br/>đã cho anh cơ hội<br/>được bước vào thế giới của em ❤️`;
 const MSG_THINK=`Được ròi, nếu em chọn như vậy thì mở mess lên để nói chuyện với anh nhé❤️`;
 
-btnYes.addEventListener('click',()=>triggerCelebration(MSG_YES));
+btnYes.addEventListener('click',()=>{sendToSheet('Answer','YES ❤️');triggerCelebration(MSG_YES);});
 function triggerYes(){ triggerCelebration(MSG_YES); }       // kept for backward-compat
-function triggerThink(){ triggerCelebration(MSG_THINK); }    // "Để em suy nghĩ" → same magic, softer words
+function triggerThink(){ sendToSheet('Answer','Để em suy nghĩ 🙈'); triggerCelebration(MSG_THINK); }    // "Để em suy nghĩ" → same magic, softer words
 
 let yesDone=false;
 function triggerCelebration(finalMessage){
