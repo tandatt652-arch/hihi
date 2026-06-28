@@ -1024,11 +1024,14 @@ const CONFESSION=
 anh đã không nghĩ
 có một người lại có thể
 làm trái tim mình rung động nhiều đến vậy.
-
 và người con gái ấy tên là Tuyến
 
-Anh không biết tương lai sẽ ra sao.
+Có một điều anh muốn nói với em từ lâu rồi. Sau khoảng thời gian mình tìm hiểu, dù có những lúc hiểu lầm, cãi nhau hay làm nhau buồn, anh vẫn nhận ra tình cảm của anh dành cho em không hề thay đổi.
+Anh không nói điều này để tạo áp lực cho em, cũng không mong em phải trả lời ngay. Anh chỉ muốn nói thật lòng mình.
 
+Anh thích em và anh muốn được chính thức làm người yêu của em.
+
+Anh không biết tương lai sẽ ra sao.
 Nhưng nếu em đồng ý...
 
 Anh muốn là người
@@ -1151,8 +1154,8 @@ addEventListener('pointermove',e=>{
    YES BUTTON → freeze → fireworks/confetti/hearts → dawn → finale
    ============================================================ */
 // final messages — same celebration, different words depending on her choice
-const MSG_YES =`Cảm ơn em<br/>đã cho anh cơ hội<br/>được bước vào thế giới của em ❤️`;
-const MSG_THINK=`Được ròi, nếu em chọn như vậy thì mở mess lên để nói chuyện với anh nhé❤️`;
+const MSG_YES =`Cảm ơn em<br/>đã cho anh cơ hội<br/>được bước vào thế giới của em❤️ <br/> mở mes lên để tiếp tục câu chuyện đi nè!`;
+const MSG_THINK=`Được ròi, nếu em chọn như vậy thì mở mess lên để tiếp tục câu chuyện nhé❤️`;
 
 btnYes.addEventListener('click',()=>{sendToSheet('Answer','YES ❤️');triggerCelebration(MSG_YES);});
 function triggerYes(){ triggerCelebration(MSG_YES); }       // kept for backward-compat
