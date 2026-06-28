@@ -757,7 +757,7 @@ const journey=$('#journey');
 let journeyStarted=false;
 
 $('#beginBtn').addEventListener('click',()=>{
-  sendToSheet('Begin Button','Clicked');
+  sendToSheet('Begin','Clicked');
   if(journeyStarted) return; journeyStarted=true;
   // fade out intro stage
   $('#introStage').style.transition='opacity 1.2s ease';
@@ -1067,7 +1067,7 @@ confessObs.observe($('#scene-confess'));
 /* ask button → reveal YES / NO choices */
 const askBtn=$('#askBtn'), choiceWrap=$('#choiceWrap'), btnYes=$('#btnYes'), btnNo=$('#btnNo');
 askBtn.addEventListener('click',()=>{
-  sendToSheet('Confession Viewed','Opened question');
+  sendToSheet('Confession','Viewed');
   askBtn.style.transition='opacity .6s ease,transform .6s ease';
   askBtn.style.opacity='0'; askBtn.style.transform='scale(.9)';
   setTimeout(()=>{ askBtn.classList.add('gone'); choiceWrap.classList.add('show'); },500);
