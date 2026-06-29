@@ -538,7 +538,7 @@ body.dawn{color:var(--c-bg-0)}
         <button class="btn-glow btn-ask" id="askBtn">Em có đồng ý không? 👈</button>
         <div id="choiceWrap">
           <button class="btn-yes" id="btnYes">Em đồng ý!❤️</button>
-          <button id="btnNo">Chưa được, em cần thời gian suy nghĩ 🙈</button>
+          <button id="btnNo">Em từ chối🙈</button>
         </div>
       </div>
     </div>
@@ -804,9 +804,9 @@ musicBtn.addEventListener('click',()=>setMusic(!musicOn));
    SCENE 3 : MEMORY TIMELINE (data-driven, no duplicated code)
    ============================================================ */
 const MEMORIES=[
-  {date:'Lần đầu gặp',  title:'Lần tiếp xúc đầu tiên', desc:'Khoảnh khắc anh thấy em, thời gian như chậm lại một nhịp mà anh cũng chẳng hiểu vì sao.', img:'photo1.jpg'},
+  {date:'Lần đầu gặp em',  title:'May mắn', desc:'Vào ngày hôm đó, 20/3 anh vô tình chơi zing và gặp được em, sau 1 thời gian tiếp xúc anh dàn cảm thấy em có gì đó đặc biệt', img:'photo1.jpg'},
   {date:'Những lời nói', title:'Câu chuyện không hồi kết', desc:'Những lần mình nói chuyện đến tận khuya mà chẳng ai muốn dừng.', img:'photo2.jpg'},
-  {date:'Cùng nhau',     title:'Những lần cạnh nhau', desc:'Mỗi nơi đều đẹp hơn khi có em bên cạnh, anh cảm thấy liên quân hay hơn rất nhìu khi chơi cùng em', img:'photo3.jpg'},
+  {date:'Cùng nhau',     title:'Những lần cạnh nhau', desc:'Mỗi nơi đều đẹp hơn khi có em bên cạnh, anh cảm thấy việc chơi game không còn nhàm chán khi có em', img:'photo3.jpg'},
   {date:'Hôm nay',       title:'Điều anh muốn nói hôm nay', desc:'Và đây là lúc anh kể cho em nghe trái tim mình.', img:'photo4.jpg'},
 ];
 function buildTimeline(){
@@ -1149,16 +1149,16 @@ addEventListener('pointermove',e=>{
    YES BUTTON → freeze → fireworks/confetti/hearts → dawn → finale
    ============================================================ */
 // final messages — same celebration, different words depending on her choice
-const MSG_YES =`Cảm ơn em<br/>đã cho anh cơ hội<br/>được bước vào thế giới của em❤️ <br/> mở mes lên để tiếp tục câu chuyện đi nè!`;
-const MSG_THINK=`Được ròi, nếu em chọn như vậy thì mở mess lên để tiếp tục câu chuyện nhé❤️`;
+const MSG_YES =`Cảm ơn em<br/>đã cho anh cơ hội<br/>được bước vào thế giới của em❤️ `;
+const MSG_THINK=`Cảm ơn em đã bỏ thời gian ra để lắng nghe anh, về quyết định của em thì anh tôn trọng.`;
 
-btnYes.addEventListener('click',()=>{sendToSheet('Answer','YES ❤️');triggerCelebration(MSG_YES);});
+btnYes.addEventListener('click',()=>{sendToSheet('Answer','Em đồng ý!❤️');triggerCelebration(MSG_YES);});
 function triggerYes(){ triggerCelebration(MSG_YES); }       // kept for backward-compat
 function triggerThink(){
 
     sendToSheet(
         'Answer',
-        'Để em suy nghĩ 🙈'
+        'Em từ chối 🙈'
     );
 
     if(yesDone) return;
@@ -1172,7 +1172,7 @@ function triggerThink(){
     setTimeout(()=>{
 
         choiceWrap.style.display='none';
-
+        $('#finaleMsg p').style.color='#FFFFFF';
         $('#finale').style.display='block';
 
         $('#finaleMsg p').innerHTML = MSG_THINK;
